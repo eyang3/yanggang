@@ -45,27 +45,24 @@
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-    </v-content>
-
-    <v-content>
-      <HelloWorld />
+      <Primary />
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import Vue from 'vue';
+import Primary from './components/Primary.vue';
 
 export default Vue.extend({
   name: 'App',
 
   components: {
-    HelloWorld
+    Primary
   },
 
   data: () => ({
     //
   })
-})
+});
 </script>

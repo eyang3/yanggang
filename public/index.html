@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>yanggang</title>
+    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=initMap&key=AnfGtNHs8hQ5nogVT8wtSPFwdgY_unSzIoZpHNc0DTpm1tBhRfekwa7Ld53H6hSe' async defer></script>
+    <script type="text/javascript">
+      window.mapState = {
+        initMap: false
+      }
+      function initMap() {
+        window.mapState.initMap = true;
+      }
+    </script>
   </head>
   <body>
     <noscript>
