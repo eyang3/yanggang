@@ -56,11 +56,9 @@ import Primary from './components/Primary.vue';
 
 export default Vue.extend({
   name: 'App',
-
   components: {
     Primary
   },
-
   data: () => ({
     //
   })
