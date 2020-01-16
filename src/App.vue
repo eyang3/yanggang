@@ -5,7 +5,7 @@
         <v-toolbar-title>Yang Gang Assemble</v-toolbar-title>
         <v-spacer></v-spacer>
 
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </v-app-bar>
     </v-container>
     <v-content style="padding-top:42px">
@@ -45,7 +45,7 @@
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-      <Primary />
+      <Primary mapid="map2" />
     </v-content>
   </v-app>
 </template>
@@ -60,6 +60,7 @@ export default Vue.extend({
     Primary
   },
   data: () => ({
+    drawer: false
     //
   })
 });

@@ -12,7 +12,6 @@
     "@types/scriptjs": "0.0.2",
     "bingmaps": "^2.0.3",
     "roboto-fontface": "*",
-    "scriptjs": "^2.5.9",
     "tslint": "^5.20.1",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
