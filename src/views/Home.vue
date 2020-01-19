@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <Primary msg="Welcome to Your Vue.js App"/>
+    <Primary mapid="map2" />
   </div>
 </template>
 
@@ -10,11 +9,10 @@
 import * as bingmaps from 'bingmaps';
 import Primary from '@/components/Primary.vue';
 
-
 export default {
   name: 'home',
   components: {
-    Primary,
-  },
+    Primary
+  }
 };
 </script>

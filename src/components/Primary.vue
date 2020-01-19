@@ -1,7 +1,9 @@
 <template>
-  <div align="center">
-    Hello World {{mapid}}
-    <div v-bind:id="mapid" style="width: 800px; height: 800px;" />
+  <div>
+    <v-navigation-drawer style="padding-top:0px" :height="400" absolute></v-navigation-drawer>
+    <div align="center">
+      <div v-bind:id="mapid" style="width: 800px; height: 800px;" />
+    </div>
   </div>
 </template>
 
@@ -9,10 +11,6 @@
 import 'bingmaps';
 import Vue from 'vue';
 import { Component, Watch, Prop } from 'vue-property-decorator';
-
-function test2() {
-  console.log('done');
-}
 
 @Component
 export default class Primary extends Vue {
@@ -26,6 +24,7 @@ export default class Primary extends Vue {
         pos => {
           const lat = pos.coords.latitude;
           const lon = pos.coords.longitude;
+          console.log('something is here');
           this.map = new Microsoft.Maps.Map(`#${this.mapid}`, {
             credentials:
               'AnfGtNHs8hQ5nogVT8wtSPFwdgY_unSzIoZpHNc0DTpm1tBhRfekwa7Ld53H6hSe',
