@@ -18,23 +18,39 @@ export default class Primary extends Vue {
 
   map: Microsoft.Maps.Map | null = null;
 
-  mounted() {
-    window.addEventListener('bingloaded', () => {
+  async mounted() {
+    const promiseBing = new Promise((resolve, reject) => {
+      window.addEventListener('bingloaded', () => {
+        resolve(true);
+      });
+    });
+    const promiseLocation = new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         pos => {
-          const lat = pos.coords.latitude;
-          const lon = pos.coords.longitude;
-          console.log('something is here');
-          this.map = new Microsoft.Maps.Map(`#${this.mapid}`, {
-            credentials:
-              'AnfGtNHs8hQ5nogVT8wtSPFwdgY_unSzIoZpHNc0DTpm1tBhRfekwa7Ld53H6hSe',
-            center: new Microsoft.Maps.Location(lat, lon),
-            mapTypeId: Microsoft.Maps.MapTypeId.canvasLight,
-            zoom: 10
-          });
+          resolve(pos);
         },
-        err => {}
+        err => {
+          reject(err);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
       );
+    });
+    await Promise.all([promiseBing, promiseLocation]).then(values => {
+      const result: any = values[1];
+      console.log(result);
+      const { longitude, latitude } = result.coords;
+      console.log(longitude, latitude);
+      this.map = new Microsoft.Maps.Map(`#${this.mapid}`, {
+        credentials:
+          'AnfGtNHs8hQ5nogVT8wtSPFwdgY_unSzIoZpHNc0DTpm1tBhRfekwa7Ld53H6hSe',
+        center: new Microsoft.Maps.Location(latitude, longitude),
+        mapTypeId: Microsoft.Maps.MapTypeId.canvasLight,
+        zoom: 13
+      });
     });
   }
 }

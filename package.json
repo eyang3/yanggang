@@ -10,6 +10,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
     "@types/scriptjs": "0.0.2",
+    "axios": "^0.19.1",
     "bingmaps": "^2.0.3",
     "roboto-fontface": "*",
     "tslint": "^5.20.1",

@@ -10,11 +10,7 @@
     <v-content style="padding-top:42px">
       <v-navigation-drawer
         v-model="drawer"
-        :color="color"
-        :expand-on-hover="expandOnHover"
-        :mini-variant="miniVariant"
         :right="true"
-        :src="bg"
         :height="400"
         absolute
       >
@@ -65,5 +61,9 @@ import Login from './views/Login.vue';
 export default class App extends Vue {
   drawer: boolean = false;
   login: boolean = false;
+  mounted() {
+    console.log(this.drawer);
+    console.log('i am mounted');
+  }
 }
 </script>
