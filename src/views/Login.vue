@@ -73,10 +73,10 @@ export default class Login extends Vue {
   }
   authWithReddit() {
     const clientid = process.env.VUE_APP_REDDIT;
-    const redirectUrl = `http://${window.location.host}`;
+    const redirectUrl = 'http://localhost:3000/getUser';
     const url = `https://www.reddit.com/api/v1/authorize?client_id=${clientid}`
                 + `&response_type=code&redirect_uri=${redirectUrl}`
-                + '&duration=temporary&scope=account,mysubreddits&state=wee';
+                + '&duration=temporary&scope=identity,account,mysubreddits&state=wee';
     window.open(url, '_self');
     console.log(this.data);
   }

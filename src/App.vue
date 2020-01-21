@@ -8,12 +8,7 @@
       </v-app-bar>
     </v-container>
     <v-content style="padding-top:42px">
-      <v-navigation-drawer
-        v-model="drawer"
-        :right="true"
-        :height="400"
-        absolute
-      >
+      <v-navigation-drawer v-model="drawer" :right="true" :height="400" absolute>
         <v-list dense nav class="py-0">
           <v-list-item two-line>
             <v-list-item-avatar>
@@ -52,6 +47,7 @@
 </template>
 
 <script lang="ts">
+
 import Vue from 'vue';
 import { Component, Watch, Prop } from 'vue-property-decorator';
 import Primary from './components/Primary.vue';
@@ -61,9 +57,13 @@ import Login from './views/Login.vue';
 export default class App extends Vue {
   drawer: boolean = false;
   login: boolean = false;
-  mounted() {
-    console.log(this.drawer);
-    console.log('i am mounted');
+  async mounted() {
+    const accessCode = this.$route.query.code;
+    const clientid = process.env.VUE_APP_REDDIT;
+    const secret = process.env.VUE_APP_SECRET;
+    if (accessCode != null) {
+      this.$store.commit('setAccessCode', accessCode);
+    }
   }
 }
 </script>
