@@ -8,9 +8,15 @@ export default new Vuex.Store({
     accessCode: '',
     name: '',
     zip: '',
-    messaging: ''
+    messaging: '',
+    longitude: 0,
+    latitude: 0,
+    imageurl: '',
   },
   mutations: {
+    setImageUrl(state, imageurl) {
+      state.imageurl = imageurl;
+    },
     setAccessCode(state, accessCode) {
       state.accessCode = accessCode;
     },

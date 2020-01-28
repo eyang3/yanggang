@@ -46,7 +46,7 @@ export default class Login extends Vue {
   dialog: boolean = false;
   mdialog: boolean = false;
   valid: boolean = true;
-  name: String = '';
+
   zipcode: String = '';
   messaging: boolean = false;
   data = 'string';
@@ -64,6 +64,13 @@ export default class Login extends Vue {
   close() {
     this.$emit('dialog', false);
   }
+  set name(name) {
+    this.$store.commit('setName', name);
+  }
+  get name() {
+    return this.$store.state.name;
+  }
+
   save() {
     this.mdialog = false;
     this.close();
@@ -75,8 +82,8 @@ export default class Login extends Vue {
     const clientid = process.env.VUE_APP_REDDIT;
     const redirectUrl = 'http://localhost:3000/getUser';
     const url = `https://www.reddit.com/api/v1/authorize?client_id=${clientid}`
-                + `&response_type=code&redirect_uri=${redirectUrl}`
-                + '&duration=temporary&scope=identity,account,mysubreddits&state=wee';
+      + `&response_type=code&redirect_uri=${redirectUrl}`
+      + '&duration=temporary&scope=identity,account,mysubreddits&state=wee';
     window.open(url, '_self');
     console.log(this.data);
   }

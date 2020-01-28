@@ -12,6 +12,7 @@
     "@types/scriptjs": "0.0.2",
     "axios": "^0.19.1",
     "bingmaps": "^2.0.3",
+    "jsencrypt": "^3.0.0-rc.1",
     "roboto-fontface": "*",
     "tslint": "^5.20.1",
     "vue": "^2.6.10",

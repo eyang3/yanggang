@@ -47,7 +47,6 @@
 </template>
 
 <script lang="ts">
-
 import Vue from 'vue';
 import { Component, Watch, Prop } from 'vue-property-decorator';
 import Primary from './components/Primary.vue';
@@ -57,12 +56,13 @@ import Login from './views/Login.vue';
 export default class App extends Vue {
   drawer: boolean = false;
   login: boolean = false;
-  async mounted() {
-    const accessCode = this.$route.query.code;
-    const clientid = process.env.VUE_APP_REDDIT;
-    const secret = process.env.VUE_APP_SECRET;
-    if (accessCode != null) {
-      this.$store.commit('setAccessCode', accessCode);
+  mounted() {
+    const params = this.$route.query;
+    if (Object.keys(params).length !== 0) {
+      if (params.error == null) {
+        this.$store.commit('setName', params.name);
+        this.login = true;
+      }
     }
   }
 }

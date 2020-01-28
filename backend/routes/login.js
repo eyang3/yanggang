@@ -5,6 +5,8 @@ const router = express.Router();
 const request = require('request');
 const querystring = require('querystring');
 const _ = require('lodash');
+const guid = require('short-uuid');
+
 /* GET users listing. */
 
 // TODO: need to refactor the hard coded URL's
@@ -33,8 +35,6 @@ function getAPI(url, token) {
   return new Promise((resolve, reject) => {
     request({
       method: 'GET',
-      //url: 'https://oauth.reddit.com/api/v1/me',
-      //url: 'https://oauth.reddit.com/subreddits/mine/subscribed?show=all',
       url,
       headers: {
         Authorization: `bearer ${token}`,
@@ -64,15 +64,26 @@ router.get('/', async (req, res, next) => {
   const queryString = querystring.stringify(payload);
   const response = await getToken(queryString, clientid, secret);
   const p1 = getAPI('https://oauth.reddit.com/api/v1/me', response.access_token);
-  const p2 = getAPI('https://oauth.reddit.com//subreddits/mine/subscriber?show=all', response.access_token);
-  await Promise.all([p1, p2]).then((responses) => {
+  const p2 = getAPI('https://oauth.reddit.com/subreddits/mine/subscriber?show=all', response.access_token);
+  const p3 = getAPI('https://oauth.reddit.com/api/v1/me/karma', response.access_token);
+  await Promise.all([p1, p2, p3]).then((responses) => {
     const { name, icon_img } = responses[0];
-    console.log(name, icon_img);
-    console.log(responses[1].data.children);
     const yang = _.filter(responses[1].data.children, (i) => (i.data.url === '/r/YangForPresidentHQ/'));
-    console.log(yang);
+    const redirectPayload = guid.generate();
+    const user = {
+      guid: redirectPayload,
+      name,
+      icon: icon_img,
+      isYang: yang.length > 1,
+      karma: responses[0].link_karma + responses[0].comment_karma,
+    };
+    res.redirect(`http://localhost:8080/?id=${redirectPayload}`);
+  }).catch((err) => {
+    const redirectPayload = querystring.stringify({
+      error: 'not in reddit'
+    });
+    res.redirect(`http://localhost:8080/?${redirectPayload}`);
   });
-  res.send('complete');
 });
 
 module.exports = router;
