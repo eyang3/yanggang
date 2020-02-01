@@ -58,7 +58,9 @@ function getAPI(url, token) {
 }
 
 router.get('/', async (req, res, next) => {
-  const { code } = req.query;
+  const { state, code } = req.query;
+  const userPayload = JSON.parse(Buffer.from(state, 'base64').toString('utf-8'));
+  console.log(userPayload);
   const clientid = process.env.VUE_APP_REDDIT;
   const secret = process.env.VUE_APP_SECRET;
   const payload = {
@@ -72,24 +74,42 @@ router.get('/', async (req, res, next) => {
   const p2 = getAPI('https://oauth.reddit.com/subreddits/mine/subscriber?show=all', response.access_token);
   const p3 = getAPI('https://oauth.reddit.com/api/v1/me/karma', response.access_token);
   console.log(db);
-  await db.insertUser();
+
   await Promise.all([p1, p2, p3]).then((responses) => {
     // disabled because I have no control over the response
     // eslint-disable-next-line camelcase
     const { name, icon_img } = responses[0];
     const yang = _.filter(responses[1].data.children, (i) => (i.data.url === '/r/YangForPresidentHQ/'));
     const redirectPayload = guid.generate();
-    const user = {
+    let user = {
       guid: redirectPayload,
       name,
+      username: payload.username,
+      longitude: payload.longitude,
+      latitude: payload.latitude,
       icon: icon_img,
       isYang: yang.length > 1,
       karma: responses[0].link_karma + responses[0].comment_karma,
     };
+
+    if ((name == null) && (payload.username == null)) {
+      throw new Error('need a username');
+    }
+    if (payload.longitude === 0) {
+      throw new Error('need a location');
+    }
+    if (payload.username == null) {
+      user.username = user.name;
+    }
+    if (user.name == null) {
+      user.name = user.username;
+    }
+
     res.redirect(`http://localhost:8080/?id=${redirectPayload}`);
   }).catch((err) => {
+    console.log(err);
     const redirectPayload = querystring.stringify({
-      error: 'not in reddit'
+      error: err
     });
     res.redirect(`http://localhost:8080/?${redirectPayload}`);
   });

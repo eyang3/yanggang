@@ -5,7 +5,6 @@
       <v-card-text class="text--primary">
         <v-form ref="form" v-model="valid" :lazy-validation="true">
           <v-text-field v-model="name" label="Name" />
-          <v-text-field v-model="zipcode" label="ZipCode" />
           <v-checkbox v-model="messaging" label="Allow Messaging" />
         </v-form>
         <div style="width:100%; dispaly: table;">
@@ -84,7 +83,8 @@ export default class Login extends Vue {
       username: this.name === '' ? null : this.name,
       zipcode: this.zipcode === '' ? null : this.zipcode,
       longitude: this.$store.state.longitude,
-      latitude: this.$store.state.latitude
+      latitude: this.$store.state.latitude,
+      messaging: this.messaging
     };
 
     const objJsonB64 = Base64.encode(JSON.stringify(payload));
