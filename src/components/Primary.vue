@@ -42,7 +42,7 @@ export default class Primary extends Vue {
     await Promise.all([promiseBing, promiseLocation]).then(values => {
       const result: any = values[1];
       const { longitude, latitude } = result.coords;
-      this.$store.dispatch('setLocation', result.coords);
+      this.$store.commit('setLocation', result.coords);
       this.map = new Microsoft.Maps.Map(`#${this.mapid}`, {
         credentials:
           'AnfGtNHs8hQ5nogVT8wtSPFwdgY_unSzIoZpHNc0DTpm1tBhRfekwa7Ld53H6hSe',

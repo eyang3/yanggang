@@ -29,6 +29,7 @@ export default new Vuex.Store({
       state.name = name;
     },
     setLocation(state, payload: Location) {
+      console.log(payload);
       state.longitude = payload.longitude;
       state.latitude = payload.latitude;
     },

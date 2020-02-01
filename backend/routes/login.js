@@ -73,38 +73,38 @@ router.get('/', async (req, res, next) => {
   const p1 = getAPI('https://oauth.reddit.com/api/v1/me', response.access_token);
   const p2 = getAPI('https://oauth.reddit.com/subreddits/mine/subscriber?show=all', response.access_token);
   const p3 = getAPI('https://oauth.reddit.com/api/v1/me/karma', response.access_token);
-  console.log(db);
 
-  await Promise.all([p1, p2, p3]).then((responses) => {
+
+  await Promise.all([p1, p2, p3]).then(async (responses) => {
     // disabled because I have no control over the response
     // eslint-disable-next-line camelcase
     const { name, icon_img } = responses[0];
     const yang = _.filter(responses[1].data.children, (i) => (i.data.url === '/r/YangForPresidentHQ/'));
-    const redirectPayload = guid.generate();
-    let user = {
-      guid: redirectPayload,
+    const user = {
+      guid: guid.generate(),
       name,
-      username: payload.username,
-      longitude: payload.longitude,
-      latitude: payload.latitude,
+      username: userPayload.username,
+      longitude: userPayload.longitude,
+      latitude: userPayload.latitude,
+      message: userPayload.message,
       icon: icon_img,
-      isYang: yang.length > 1,
+      isYang: yang.length >= 1,
       karma: responses[0].link_karma + responses[0].comment_karma,
     };
 
-    if ((name == null) && (payload.username == null)) {
+    if ((name == null) && (userPayload.username == null)) {
       throw new Error('need a username');
     }
     if (payload.longitude === 0) {
       throw new Error('need a location');
     }
-    if (payload.username == null) {
+    if (userPayload.username == null) {
       user.username = user.name;
     }
     if (user.name == null) {
       user.name = user.username;
     }
-
+    const redirectPayload = await db.insertUser(user);
     res.redirect(`http://localhost:8080/?id=${redirectPayload}`);
   }).catch((err) => {
     console.log(err);

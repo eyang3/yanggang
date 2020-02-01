@@ -79,12 +79,13 @@ export default class Login extends Vue {
     console.log(this.data);
   }
   authWithReddit() {
+    console.log(this.$store.state);
     const payload = {
       username: this.name === '' ? null : this.name,
       zipcode: this.zipcode === '' ? null : this.zipcode,
       longitude: this.$store.state.longitude,
       latitude: this.$store.state.latitude,
-      messaging: this.messaging
+      message: this.messaging
     };
 
     const objJsonB64 = Base64.encode(JSON.stringify(payload));
