@@ -3,6 +3,11 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+interface Location {
+  longitude: number,
+  latitude: number
+}
+
 export default new Vuex.Store({
   state: {
     accessCode: '',
@@ -22,6 +27,10 @@ export default new Vuex.Store({
     },
     setName(state, name) {
       state.name = name;
+    },
+    setLocation(state, payload: Location) {
+      state.longitude = payload.longitude;
+      state.latitude = payload.latitude;
     },
     setZip(state, zip) {
       state.zip = zip;

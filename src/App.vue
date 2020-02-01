@@ -34,7 +34,7 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>
-                <a v-on:click="login = !login" style="color: black">Login</a>
+                <a v-on:click="login = !login" style="color: black">Register</a>
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>

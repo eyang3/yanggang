@@ -42,6 +42,7 @@ export default class Primary extends Vue {
     await Promise.all([promiseBing, promiseLocation]).then(values => {
       const result: any = values[1];
       const { longitude, latitude } = result.coords;
+      this.$store.dispatch('setLocation', result.coords);
       this.map = new Microsoft.Maps.Map(`#${this.mapid}`, {
         credentials:
           'AnfGtNHs8hQ5nogVT8wtSPFwdgY_unSzIoZpHNc0DTpm1tBhRfekwa7Ld53H6hSe',
@@ -49,6 +50,13 @@ export default class Primary extends Vue {
         mapTypeId: Microsoft.Maps.MapTypeId.canvasLight,
         zoom: 13
       });
+      const pins = [
+        new Microsoft.Maps.Pushpin(
+          new Microsoft.Maps.Location(latitude, longitude),
+          { color: '#f00' }
+        )
+      ];
+      this.map.entities.push(pins);
     });
   }
 }

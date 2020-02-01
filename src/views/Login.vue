@@ -39,6 +39,7 @@
 import Vue from 'vue';
 import { Component, Watch, Prop } from 'vue-property-decorator';
 import Axios from 'axios';
+import { Base64 } from 'js-base64';
 
 @Component
 export default class Login extends Vue {
@@ -79,11 +80,20 @@ export default class Login extends Vue {
     console.log(this.data);
   }
   authWithReddit() {
+    const payload = {
+      username: this.name === '' ? null : this.name,
+      zipcode: this.zipcode === '' ? null : this.zipcode,
+      longitude: this.$store.state.longitude,
+      latitude: this.$store.state.latitude
+    };
+
+    const objJsonB64 = Base64.encode(JSON.stringify(payload));
     const clientid = process.env.VUE_APP_REDDIT;
     const redirectUrl = 'http://localhost:3000/getUser';
-    const url = `https://www.reddit.com/api/v1/authorize?client_id=${clientid}`
-      + `&response_type=code&redirect_uri=${redirectUrl}`
-      + '&duration=temporary&scope=identity,account,mysubreddits&state=wee';
+    const url =
+      `https://www.reddit.com/api/v1/authorize?client_id=${clientid}` +
+      `&response_type=code&redirect_uri=${redirectUrl}` +
+      `&duration=temporary&scope=identity,account,mysubreddits&state=${objJsonB64}`;
     window.open(url, '_self');
     console.log(this.data);
   }
