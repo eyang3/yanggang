@@ -76,9 +76,9 @@ CREATE TABLE public.user_info (
     guid character varying(64) NOT NULL,
     validated boolean,
     username character varying(64),
-    zip character varying(7),
     geom public.geography(Point,4326),
-    show_username character varying(64)
+    show_username character varying(64),
+    message boolean
 );
 
 
@@ -111,7 +111,8 @@ COPY public.spatial_ref_sys (srid, auth_name, auth_srid, srtext, proj4text) FROM
 -- Data for Name: user_info; Type: TABLE DATA; Schema: public; Owner: yanger1
 --
 
-COPY public.user_info (guid, validated, username, zip, geom, show_username) FROM stdin;
+COPY public.user_info (guid, validated, username, geom, show_username, message) FROM stdin;
+75ddxVi6SRbaEN3BGWaR5F	t	CatharticMusing	0101000020E610000000000000000000000000000000000000	CatharticMusing	f
 \.
 
 
@@ -128,6 +129,14 @@ SELECT pg_catalog.setval('public.messages_message_id_seq', 1, false);
 
 ALTER TABLE ONLY public.messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (message_id);
+
+
+--
+-- Name: user_info unique_user; Type: CONSTRAINT; Schema: public; Owner: yanger1
+--
+
+ALTER TABLE ONLY public.user_info
+    ADD CONSTRAINT unique_user UNIQUE (username);
 
 
 --
